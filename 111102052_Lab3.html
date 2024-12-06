@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 3 - Number Guessing Game</title>
+  <link rel="stylesheet" href="111102052_Lab3.css">
+</head>
+<body>
+  <h1>111102052_Lab3_Number Guessing Game</h1>
+  <div id="result"></div>
+  <script>
+   // 隨機生成 1~100 的整數
+const targetNumber = Math.floor(Math.random() * 100) + 1;
+let attemptsLeft = 7; // 剩餘嘗試次數
+let minRange = 1;
+let maxRange = 100;
+
+// 獲取結果顯示區域
+const resultDiv = document.getElementById("result");
+
+while (attemptsLeft > 0) {
+  // 提示使用者輸入
+  const userInput = prompt(
+    `Guess a number between ${minRange} and ${maxRange}.\nYou have ${attemptsLeft} attempts left.`
+  );
+
+  // 檢查輸入是否有效
+  if (userInput === null || userInput.trim() === "") {
+    alert("Input cannot be empty. Please enter a number.");
+    continue;
+  }
+
+  const guessedNumber = parseInt(userInput);
+
+  if (isNaN(guessedNumber) || guessedNumber < minRange || guessedNumber > maxRange) {
+    alert(`Invalid input. Please enter a number between ${minRange} and ${maxRange}.`);
+    continue;
+  }
+
+  // 比較猜測結果
+  if (guessedNumber === targetNumber) {
+    alert("Congratulations! You guessed the correct number!");
+    resultDiv.innerHTML = '<img src="correct.jpg" alt="Correct!">';
+    break;
+  } else if (guessedNumber < targetNumber) {
+    alert("Too low!");
+    minRange = guessedNumber + 1;
+  } else {
+    alert("Too high!");
+    maxRange = guessedNumber - 1;
+  }
+
+  attemptsLeft--;
+
+  // 判斷是否用完所有嘗試次數
+  if (attemptsLeft === 0) {
+    alert(`Game over! The correct number was ${targetNumber}.`);
+    resultDiv.innerHTML = '<img src="wrong.jpg" alt="Wrong!">';
+  }
+}
+
+  </script>
+</body>
+</html>
